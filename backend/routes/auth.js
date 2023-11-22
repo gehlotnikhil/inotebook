@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken")
 
 
 const JWT_Secret = "NikhilGehlot"
-
+// Creating a User: POST Request
 router.post("/createuser",[
     // adding validator to check length of name
     body("name").isLength({min:3})
@@ -33,7 +33,9 @@ router.post("/createuser",[
         password: secPasswd
     })
     const data = {
-        id: u1.id 
+        users:{
+            id:u1.id
+        }
     }
     const authToken = jwt.sign(data,JWT_Secret)
     console.log(authToken)
@@ -48,6 +50,47 @@ router.post("/createuser",[
         return res.status(407).send(err)
     }
     res.send(req.body)
+})
+
+// Authentication of User: POST Request
+router.post("/login",[
+    body("email","Please Enter a Email in Field: ").isEmail(),
+    body("password","Please fill the Password field").exists()
+],async (req,res)=>{
+    // Validating email and password
+    const error = validationResult(req)
+    if(!error.isEmpty()){
+      return  res.status(403).json({error:error.array()})
+    }
+    const {email,password} = req.body;
+
+    try{
+        const user = await User.findOne({email})
+        //if email is wrong then if block execute
+        if(!user){
+            return res.status("410").send("Please enter the correct Credential")
+        }
+        
+        const passwordCompare = await bcrypt.compare(password,user.password)
+        //if password is wrong then if block execute
+        if(!passwordCompare){
+            return res.status("410").send("Please enter the correct Credential")
+        }
+        // sending token
+        const data = {
+            users:{
+                id:user.id
+            }
+        }
+        const authToken = await jwt.sign(data,JWT_Secret)
+        res.send(authToken)
+    }
+    catch (err) {
+        for (field in err.errors) {
+            console.log(err.errors[field])
+        }
+        return res.status(407).send(err)
+    }
 })
 
 module.exports = router

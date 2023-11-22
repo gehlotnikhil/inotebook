@@ -2,7 +2,13 @@ const express = require("express")
 const router = express.Router()
 const User = require("../models/User")
 const {body, validationResult} = require("express-validator")
-router.post("/",[
+const bcrypt = require("bcryptjs")
+const jwt = require("jsonwebtoken")
+
+
+const JWT_Secret = "NikhilGehlot"
+
+router.post("/createuser",[
     // adding validator to check length of name
     body("name").isLength({min:3})
 ],  async(req, res) => {
@@ -15,14 +21,22 @@ router.post("/",[
     // email provided by user and all the existing email address
     const u = await User.findOne({email: req.body.email})
     if(u){
-        return res.status(404).send("Soory, that email is already exists")
+        return res.status(409).send("Soory, that email is already exists")
     }
+    let salt = await bcrypt.genSalt(10)
+    let secPasswd = await bcrypt.hash(req.body.password,salt)
+
     // creating new user
     const u1 = User({
         name: req.body.name,
         email: req.body.email,
-        password: req.body.password
+        password: secPasswd
     })
+    const data = {
+        id: u1.id 
+    }
+    const authToken = jwt.sign(data,JWT_Secret)
+    console.log(authToken)
     try {
         const result = await u1.save()
         console.log(result)

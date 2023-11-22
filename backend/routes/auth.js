@@ -4,6 +4,7 @@ const User = require("../models/User")
 const {body, validationResult} = require("express-validator")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
+const fetchuser = require("../middleware/fetchuser")
 
 
 const JWT_Secret = "NikhilGehlot"
@@ -92,5 +93,19 @@ router.post("/login",[
         return res.status(407).send(err)
     }
 })
+
+// Route 3: Get the user details: 
+router.post("/getuser",fetchuser,async (req,res)=>{
+        try{
+            userid = req.users.id
+            const user = await User.findById(userid).select("-password")
+            res.send(user) 
+        }
+        catch(err){
+            console.error(err.message)
+            res.status(406).send("Internal Server Error")
+        }
+})
+
 
 module.exports = router

@@ -58,6 +58,9 @@ router.put("/updatenote/:id", fetchuser, [
     try {
         const { title, description, tag } = req.body;
         let n = await  Notes.findById(req.params.id)
+        if(!n){
+            res.status(404).send("Not Found")
+        }
         let note = {}
         if(title) note.title = title
         if(description) note.description = description
@@ -79,5 +82,26 @@ router.put("/updatenote/:id", fetchuser, [
     }
 })
 
+//Route 4: Delete a note - DELETE Request . Login Required
+router.delete("/deletenote/:id",fetchuser, async (req, res) => {
+    
+    try {
+        console.log("Hi")
+        let n = await  Notes.findById(req.params.id)
+        if(!n){
+            res.status(404).send("Not Found")
+        }
+        if(req.users.id !== (n.user).toString()){
+           return res.status(408).send("Cannot Accessed")
+        }
+        const result = await Notes.findByIdAndDelete(req.params.id)
+        console.log(result)
+        res.send(result) 
+    }
+    catch (err) {
+        console.error(err.message)
+        res.status(406).send("Internal Server Error")
+    }
+})
 
 module.exports = router

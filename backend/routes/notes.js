@@ -20,7 +20,7 @@ router.get("/fetchallnotes", fetchuser, async (req, res) => {
 
 
 
-//Route 2: ADdd new Notes - GET Request . Login Required
+//Route 2: Add new Notes - GET Request . Login Required
 router.post("/addnote", fetchuser, [
     body("title", "Please Enter a Title : ").isLength({ min: 3 }),
     body("description", "Please fill the Description field").exists()
@@ -44,5 +44,40 @@ router.post("/addnote", fetchuser, [
         res.status(406).send("Internal Server Error")
     }
 })
+
+
+//Route 3: Update existing notes - PUT Request . Login Required
+router.put("/updatenote/:id", fetchuser, [
+    body("title", "Please Enter a Title : ").isLength({ min: 3 }),
+    body("description", "Please fill the Description field").exists()
+], async (req, res) => {
+    const error = validationResult(req)
+    if (!error.isEmpty()) {
+        return res.status(403).json({ error: error.array() })
+    }
+    try {
+        const { title, description, tag } = req.body;
+        let n = await  Notes.findById(req.params.id)
+        let note = {}
+        if(title) note.title = title
+        if(description) note.description = description
+        if(tag) note.tag = tag
+     
+        if(req.users.id !== (n.user).toString()){
+           return res.status(408).send("Cannot Accessed")
+        }
+
+
+        console.log(req.users.id)
+        const result = await Notes.findByIdAndUpdate(req.params.id,{$set:note},{new:true})
+        console.log(result)
+        res.send(result)
+    }
+    catch (err) {
+        console.error(err.message)
+        res.status(406).send("Internal Server Error")
+    }
+})
+
 
 module.exports = router

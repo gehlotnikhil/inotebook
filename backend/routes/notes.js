@@ -37,7 +37,7 @@ router.post("/addnote", fetchuser, [
         console.log( title, description, tag )
         const result = await note.save()
         console.log(result)
-        res.send(result+"hiiiiii")
+        res.send(result)
     }
     catch (err) {
         console.error(err.message)

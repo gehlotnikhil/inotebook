@@ -5,19 +5,22 @@ import NoteItem from './NoteItem'
 import AddNote from './AddNote'
 function Notes() {
    const context = useContext(NoteContext)
-   const { notes } = context
+   const { notes ,editNote} = context
    const updateNote = (currentNote) => {
       console.log("clicked")
       ref.current.click()
+      console.log(currentNote)
       setNote(currentNote)
    }
-   const [note, setNote] = useState({ title: "1", description: "2", tag: "default" })
+   const [note, setNote] = useState({_id:"", title: "1", description: "2", tag: "default" })
 
    const ref = useRef(null)
 
    const handleClick = (element) => {
       element.preventDefault()
-      
+      ref.current.click()
+      editNote(note._id,note.title,note.description,note.tag)
+      console.log("editing---------")
 
    }
    const onChanges = (e) => {

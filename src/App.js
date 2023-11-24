@@ -78,18 +78,17 @@ function App() {
   const editNote = async (id, title, description, tag) => {
     //API CALL
     const response = await fetch(`${host}/api/notes/updatenote/${id}`, {
-      method: "POST",
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
         "auth-header": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VycyI6eyJpZCI6IjY1NWUyNWJiMDkzOTM1MzBiYmIxODY0NSJ9LCJpYXQiOjE3MDA2Njg4Nzd9.Visy37itYY9EAed2cbU4RZGelXs00XEoz2Yx7gtsrGc"
       },
       body: JSON.stringify({title,description,tag}),
     });
-    const json =response.json();
+    const json = await response.json();
     console.log(json)
+
     //Logic
-
-
     console.log("Editing - ", id)
     let n = notes.filter((note) => {
       if (id === note._id) {
@@ -101,9 +100,6 @@ function App() {
     })
     setNotes(n)
     console.log(n)
-
-
-   
   }
 
   return (

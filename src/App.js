@@ -15,30 +15,30 @@ function App() {
 
 
   //Add Note
-  // const addNotes = async(title, description, tag) => {
-  //    //API CALL
-  //    const response = await fetch(`${host}/api/notes/addnote`, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       "auth-header": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VycyI6eyJpZCI6IjY1NWUyNWJiMDkzOTM1MzBiYmIxODY0NSJ9LCJpYXQiOjE3MDA2Njg4Nzd9.Visy37itYY9EAed2cbU4RZGelXs00XEoz2Yx7gtsrGc"
-  //     },
-  //     body: JSON.stringify({title:title,description:description,tag:tag}),
-  //   });
-  //   const json = await response.json();
-  //   console.log("json"+json)
-  //   //Logic
-  //   const note = {
-  //     _id: "605601e0888261702c79c597858109",
-  //     user: "655e25bb09393530bbb18645",
-  //     title: title,
-  //     description: description,
-  //     tag: tag,
-  //     date: "2023-11-24T03:54:42.702Z",
-  //     __v: 0
-  //   }
-  //   setNotes(notes.concat(note))
-  // }
+  const addNotes = async(title, description, tag) => {
+     //API CALL
+     const response = await fetch(`${host}/api/notes/addnote`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "auth-header": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VycyI6eyJpZCI6IjY1NWUyNWJiMDkzOTM1MzBiYmIxODY0NSJ9LCJpYXQiOjE3MDA2Njg4Nzd9.Visy37itYY9EAed2cbU4RZGelXs00XEoz2Yx7gtsrGc"
+      },
+      body: JSON.stringify({title:title,description:description,tag:tag}),
+    });
+    const json = await response.json();
+    console.log("json--"+json._id)
+    //Logic
+    const note = {
+      _id: json._id,
+      user: "655e25bb09393530bbb18645",
+      title: title,
+      description: description,
+      tag: tag,
+      date: "2023-11-24T03:54:42.702Z",
+      __v: 0
+    }
+    setNotes(notes.concat(note))
+  }
 
   //Get Note
   const getNote = async() => {
@@ -51,21 +51,21 @@ function App() {
       },
     });
     const json = await response.json();
-    console.log("json"+json)
+    console.log(typeof json,"json-",json)
     setNotes(json)
   }
   //Delete Note
   const deleteNote = async(id) => {
      //API CALL
      const response = await fetch(`${host}/api/notes/deletenote/${id}`, {
-      method: "POST",
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
         "auth-header": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VycyI6eyJpZCI6IjY1NWUyNWJiMDkzOTM1MzBiYmIxODY0NSJ9LCJpYXQiOjE3MDA2Njg4Nzd9.Visy37itYY9EAed2cbU4RZGelXs00XEoz2Yx7gtsrGc"
       },
     });
-    const json =response.json();
-    console.log(json)
+    const json =await response.json();
+    console.log("delete json - ",json)
     //Logic
     console.log("hi-" + id)
     const newNote = notes.filter((n) => { return id != n._id })
@@ -109,7 +109,7 @@ function App() {
   return (
     <>
 
-      <NoteContext.Provider value={{ notes, setNotes, getNote, deleteNote, editNote }}>
+      <NoteContext.Provider value={{ notes, setNotes, getNote,addNotes, deleteNote, editNote }}>
         <Router>
           <Navbar />
           <Alert message="This is my Project" />

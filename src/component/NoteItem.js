@@ -2,9 +2,9 @@ import React, { useContext ,useEffect} from 'react'
 import NoteContext from '../context/notes/NoteContext';
 
 function NoteItem(props) {
-    const { notes } = props;
+    const { notes,updateNote } = props;
     const context = useContext(NoteContext);
-    const { deleteNote, editNote } = context
+    const { deleteNote } = context
    
 
     return (
@@ -14,7 +14,7 @@ function NoteItem(props) {
                     <div className="d-flex  align-content-center ">
                         <h5 className="card-title mx-2">{notes.title}</h5>
                         <i style={{ fontSize: "20px", marginTop: "3px" }} onClick={() => { deleteNote(notes._id) }} className="fa fa-trash mx-2" aria-hidden="true"></i>
-                        <span onClick={()=>{editNote(notes._id, "News-", "This is new ", "Default")}} className='mx-2' style={{ fontSize: "20px", cursor: "pointer" }}>	 &#x1F589;</span>
+                        <span onClick={()=>{updateNote(notes)}} className='mx-2' style={{ fontSize: "20px", cursor: "pointer" }}>	 &#x1F589;</span>
                     </div>
 
                     <p className="card-text">{notes.description} </p>

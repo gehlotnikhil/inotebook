@@ -10,7 +10,7 @@ app.use("/api/notes",require("./routes/notes"))
 
 const port = 5000
 app.listen(port,()=>{
-    console.log(`Server is Running at Port ${port}`)
+    console.log(`iNoteBook backend listening at localhost:${port}`)
 })
 
 app.get("/",(req,res)=>{

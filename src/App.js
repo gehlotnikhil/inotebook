@@ -96,7 +96,7 @@ function App() {
     ]
 
     const  [notes, setNotes] = useState(initialNotes)
-
+   //Add Note
     const addNotes = (_title,_description,_tag)=>{
       const note = {
         _id: "605601e088261702c79c597858109",
@@ -109,12 +109,17 @@ function App() {
     }
     setNotes(notes.concat(note))
     }
-
+    //Delete Note
+    const deleteNote = (id)=>{
+      console.log("hi-"+id)
+      const newNote = notes.filter((n)=>{return id != n._id})
+      setNotes(newNote)
+    }
 
   return (
     <>
       
-      <NoteContext.Provider value={{notes,setNotes,addNotes}}>
+      <NoteContext.Provider value={{notes,setNotes,addNotes,deleteNote}}>
         <Router>
           <Navbar />
           <Alert message="This is my Project"/>

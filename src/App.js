@@ -26,18 +26,9 @@ function App() {
       body: JSON.stringify({title:title,description:description,tag:tag}),
     });
     const json = await response.json();
-    console.log("json--"+json._id)
-    //Logic
-    const note = {
-      _id: json._id,
-      user: "655e25bb09393530bbb18645",
-      title: title,
-      description: description,
-      tag: tag,
-      date: "2023-11-24T03:54:42.702Z",
-      __v: 0
-    }
-    setNotes(notes.concat(note))
+    console.log("json--"+typeof +"---")
+    
+    setNotes(notes.concat(json))
   }
 
   //Get Note

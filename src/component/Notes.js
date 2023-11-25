@@ -5,21 +5,21 @@ import NoteItem from './NoteItem'
 import AddNote from './AddNote'
 function Notes() {
    const context = useContext(NoteContext)
-   const { notes ,editNote} = context
+   const { notes, editNote } = context
    const updateNote = (currentNote) => {
       console.log("clicked")
       ref.current.click()
       console.log(currentNote)
       setNote(currentNote)
    }
-   const [note, setNote] = useState({_id:"", title: "1", description: "2", tag: "default" })
+   const [note, setNote] = useState({ _id: "", title: "", description: "", tag: "default" })
 
    const ref = useRef(null)
 
    const handleClick = (element) => {
       element.preventDefault()
       ref.current.click()
-      editNote(note._id,note.title,note.description,note.tag)
+      editNote(note._id, note.title, note.description, note.tag)
       console.log("editing---------")
 
    }
@@ -49,7 +49,7 @@ function Notes() {
                            <form>
                               <div className="mb-3">
                                  <label htmlFor="title" className="form-label">Title:</label>
-                                 <input type="text" value = {note.title} className="form-control" name="title" id="title" onChange={onChanges} aria-describedby="emailHelp" />
+                                 <input type="text" value={note.title} className="form-control" name="title" id="title" onChange={onChanges} aria-describedby="emailHelp" />
                               </div>
                               <div className="mb-3">
                                  <label htmlFor="exampleInputPassword1" className="form-label">Description:</label>
@@ -65,7 +65,7 @@ function Notes() {
 
                      <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" className="btn btn-primary" onClick={handleClick}> Update Now</button>
+                        <button type="submit" disabled={(note.title.length > 5 && note.description.length > 5) ? false : true} className="btn btn-primary" onClick={handleClick}> Update Now</button>
 
                      </div>
 
@@ -73,8 +73,12 @@ function Notes() {
                </div>
             </div>
          </div>
-         <div className="row my-3">
+         <div className=" container row my-3">
             <h2>Your Notes</h2>
+            <div className="container">
+               {(notes.length === 0 && "No Notes to display")}
+            </div>
+
             {
                notes.map((n) => {
                   return <NoteItem notes={n} key={n._id} updateNote={updateNote} />

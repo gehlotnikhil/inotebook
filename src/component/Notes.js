@@ -5,7 +5,7 @@ import NoteItem from './NoteItem'
 import AddNote from './AddNote'
 function Notes() {
    const context = useContext(NoteContext)
-   const { notes, editNote } = context
+   const { notes, editNote,showAlert } = context
    const updateNote = (currentNote) => {
       console.log("clicked")
       ref.current.click()
@@ -21,6 +21,7 @@ function Notes() {
       ref.current.click()
       editNote(note._id, note.title, note.description, note.tag)
       console.log("editing---------")
+      showAlert("Updated Successfully","success")
 
    }
    const onChanges = (e) => {

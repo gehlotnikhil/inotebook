@@ -14,8 +14,18 @@ function App() {
   const initialNotes = []
 
   const [notes, setNotes] = useState(initialNotes)
+  const [alert, setAlert] = useState(null);  
 
+  const showAlert = (message, type) => {
+    setAlert({
+      message: message,
+      type: type,
+    });
 
+    setTimeout(() => {
+      setAlert(null)
+    }, 2000);
+  }
   //Add Note
   const addNotes = async(title, description, tag) => {
      //API CALL
@@ -28,7 +38,7 @@ function App() {
       body: JSON.stringify({title:title,description:description,tag:tag}),
     });
     const json = await response.json();
-    console.log("json--"+typeof +"---")
+    console.log("json--"+typeof json +"---")
     
     setNotes(notes.concat(json))
   }
@@ -98,15 +108,15 @@ function App() {
   return (
     <>
 
-      <NoteContext.Provider value={{ notes, setNotes, getNote,addNotes, deleteNote, editNote }}>
+      <NoteContext.Provider value={{ showAlert,notes, setNotes, getNote,addNotes, deleteNote, editNote }}>
         <Router>
           <Navbar />
-          <Alert message="This is my Project" />
+          <Alert alert={alert} />
           <Routes>
-            <Route exact path="/" element={<Home />} />
-            <Route exact path="/about" element={<About />} />
-            <Route exact path="/login" element={<Login />} />
-            <Route exact path="/signup" element={<Signup />} />
+            <Route  exact path="/" element={<Home />} />
+            <Route  exact path="/about" element={<About />} />
+            <Route  exact path="/login" element={<Login />} />
+            <Route  exact path="/signup" element={<Signup />} />
 
           </Routes>
 

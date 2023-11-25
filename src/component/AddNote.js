@@ -18,6 +18,7 @@ function AddNote() {
     element.preventDefault()
     context.addNotes(note.title, note.description, note.tag)
     console.log(context.notes)
+    context.showAlert("Note Added Successfully","success")
     setNote({ title: "", description: "", tag: "" })
   }
   const onChanges = (e) => {

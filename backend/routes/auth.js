@@ -60,6 +60,7 @@ router.post("/login", [
     body("email", "Please Enter a Email in Field: ").isEmail(),
     body("password", "Please fill the Password field").exists()
 ], async (req, res) => {
+    let success = false
     // Validating email and password
     const error = validationResult(req)
     if (!error.isEmpty()) {
@@ -68,7 +69,7 @@ router.post("/login", [
     const { email, password } = req.body;
 
     try {
-        let success = false
+        
         const user = await User.findOne({ email })
         //if email is wrong then if block execute
         if (!user) {

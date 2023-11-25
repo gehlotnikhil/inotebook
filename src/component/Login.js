@@ -1,9 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState,useContext } from 'react'
 import { useNavigate } from "react-router-dom"
+import NoteContext from '../context/notes/NoteContext'
+
 function Login() {
     const [credential, setCredential] = useState({ email: "", password: "" })
     const host = "http://localhost:5000"
     const navigate = useNavigate()
+    const context = useContext(NoteContext)
+    const {showAlert} = context
     const onChanges = (e) => {
         setCredential({ ...credential, [e.target.name]: e.target.value })
         console.log(credential)
@@ -27,9 +31,11 @@ function Login() {
             //save the token and redirect
             localStorage.setItem("token",json.authToken)
             navigate("/")
+            showAlert("Login Successfully","success")
+
         }
         else
-            alert("Please enter Correct Credential")
+        showAlert("Failed to Login","danger")
     }
 
     return (

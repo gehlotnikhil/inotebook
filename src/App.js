@@ -6,6 +6,8 @@ import About from "./component/About"
 import NoteContext from './context/notes/NoteContext';
 import Alert from './component/Alert';
 import React, { useState } from "react"
+import Login from './component/Login';
+import Signup from './component/Signup';
 function App() {
   const host = "http://localhost:5000"
 
@@ -59,7 +61,7 @@ function App() {
     console.log("delete json - ",json)
     //Logic
     console.log("hi-" + id)
-    const newNote = notes.filter((n) => { return id != n._id })
+    const newNote = notes.filter((n) => { return id !== n._id })
     setNotes(newNote)
   }
 
@@ -103,6 +105,8 @@ function App() {
           <Routes>
             <Route exact path="/" element={<Home />} />
             <Route exact path="/about" element={<About />} />
+            <Route exact path="/login" element={<Login />} />
+            <Route exact path="/signup" element={<Signup />} />
 
           </Routes>
 

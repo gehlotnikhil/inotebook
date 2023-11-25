@@ -8,8 +8,9 @@ function AddNote() {
   const [note, setNote] = useState({ title: "", description: "", tag: "" })
   const { getNote } = context
   useEffect(() => {
-    getNote()
 
+    getNote()
+    // eslint-disable-next-line
   }, [])
 
 
@@ -31,17 +32,17 @@ function AddNote() {
           <form>
             <div className="mb-3">
               <label htmlFor="title" className="form-label">Title:</label>
-              <input type="text" value={note.title}  className="form-control" name="title" id="title" onChange={onChanges} aria-describedby="emailHelp" required />
+              <input type="text" value={note.title} className="form-control" name="title" id="title" onChange={onChanges} aria-describedby="emailHelp" required />
             </div>
             <div className="mb-3">
               <label htmlFor="exampleInputPassword1" className="form-label">Description:</label>
-              <input type="text" value={note.description}  className="form-control" name="description" onChange={onChanges} id="exampleInputPassword1" required/>
+              <input type="text" value={note.description} className="form-control" name="description" onChange={onChanges} id="exampleInputPassword1" required />
             </div>
             <div className="mb-3">
               <label htmlFor="tag" className="form-label">Tag:</label>
-              <input type="text" value={note.tag} className="form-control" name="tag" onChange={onChanges} id="tag"  />
+              <input type="text" value={note.tag} className="form-control" name="tag" onChange={onChanges} id="tag" />
             </div>
-            <button type="submit" disabled={(note.title.length>5 && note.description.length>5)?false:true} className="btn btn-primary" onClick={handleClick}>Add Note</button>
+            <button type="submit" disabled={(note.title.length > 5 && note.description.length > 5) ? false : true} className="btn btn-primary" onClick={handleClick}>Add Note</button>
           </form>
         </div>
       </div>

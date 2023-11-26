@@ -9,25 +9,19 @@ function AddNote() {
   const [note, setNote] = useState({ title: "", description: "", tag: "" })
   const { getNote } = context
   useEffect(() => {
-    if(localStorage.getItem("token") !== ""){
-    console.log("pass")
-    getNote()
-    }
-  else{
-    console.log("fail")
-    navigate("/login")
-    console.log("run")
-
-  }
-    // eslint-disable-next-line
-  }, [])
+    if (localStorage.getItem("token") !== "")
+      getNote()
+    else 
+      navigate("/login")
+      // eslint-disable-next-line
+    }, [])
 
 
   const handleClick = (element) => {
     element.preventDefault()
     context.addNotes(note.title, note.description, note.tag)
     console.log(context.notes)
-    context.showAlert("Note Added Successfully","success")
+    context.showAlert("Note Added Successfully", "success")
     setNote({ title: "", description: "", tag: "" })
   }
   const onChanges = (e) => {
